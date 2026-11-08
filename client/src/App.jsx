@@ -1,3 +1,4 @@
+import API_BASE_URL from './config/api'
 import { useEffect, useState } from 'react'
 import './App.css'
 
@@ -8,7 +9,7 @@ import Parye from './components/Parye/Parye'
 const POLL_INTERVAL = 500
 
 async function fetchJSON(url) {
-  const response = await fetch(url)
+  const response = await fetch(`${API_BASE_URL}${url}`)
   const data = await response.json()
 
   if (!response.ok || !data.success) {

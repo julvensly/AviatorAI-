@@ -1,3 +1,4 @@
+import API_BASE_URL from '../../config/api'
 import { useCallback, useEffect, useState } from 'react'
 import './Parye.css'
 
@@ -17,7 +18,7 @@ function getPlayerId() {
 const PLAYER_ID = getPlayerId()
 
 async function requestJSON(url, options = {}) {
-  const response = await fetch(url, {
+  const response = await fetch(`${API_BASE_URL}${url}`, {
     ...options,
     headers: {
       'Content-Type': 'application/json',

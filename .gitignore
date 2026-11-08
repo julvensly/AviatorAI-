@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+client/node_modules/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Local data and persisted state
+data/
+*.sqlite
+*.db
+
+# Backups
+*.backup*
+*.test-backup*
+
+# Build outputs
+dist/
+client/dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Operating system
+.DS_Store
+Thumbs.db

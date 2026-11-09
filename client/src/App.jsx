@@ -5,6 +5,7 @@ import './App.css'
 import History from './components/History/History'
 import Enonce from './components/Enonce/Enonce'
 import Parye from './components/Parye/Parye'
+import Profile from './components/Profile/Profile'
 
 const POLL_INTERVAL = 500
 
@@ -90,14 +91,14 @@ function App() {
     <main className="app">
 
       <header className="topbar">
-        <a className="brand" href="/">
-          <span className="brand-icon">A</span>
+        <div className="brand">
+          <Profile />
 
           <span className="brand-text">
             <strong>COTE.AI</strong>
             <small>SIMULATION ENGINE</small>
           </span>
-        </a>
+        </div>
 
         <div
           className={`server-status ${

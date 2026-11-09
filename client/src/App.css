@@ -9,6 +9,8 @@
 }
 
 .topbar {
+  position: relative;
+  z-index: 1101;
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -1,4 +1,5 @@
-import { readFile } from 'node:fs/promises';
+import { randomUUID } from 'node:crypto';
+import { readFile, writeFile, rename } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -49,4 +50,43 @@ export async function findUserByEmail(email) {
   return users.find(
     user => user.email?.toLowerCase() === normalizedEmail
   ) || null;
+}
+
+let writeQueue = Promise.resolve();
+
+export async function createUser({ email, passwordHash }) {
+  const normalizedEmail = email.trim().toLowerCase();
+
+  const operation = writeQueue.then(async () => {
+    const users = await readUsers();
+
+    if (users.some(user => user.email === normalizedEmail)) {
+      const error = new Error('Email already registered.');
+      error.code = 'EMAIL_EXISTS';
+      throw error;
+    }
+
+    const user = {
+      id: randomUUID(),
+      email: normalizedEmail,
+      passwordHash,
+      createdAt: new Date().toISOString()
+    };
+
+    const temporaryFile = `${USERS_FILE}.tmp`;
+
+    await writeFile(
+      temporaryFile,
+      JSON.stringify([...users, user], null, 2),
+      'utf8'
+    );
+
+    await rename(temporaryFile, USERS_FILE);
+
+    return user;
+  });
+
+  writeQueue = operation.catch(() => {});
+
+  return operation;
 }

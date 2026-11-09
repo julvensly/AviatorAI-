@@ -1,0 +1,158 @@
+.profile-container {
+  position: relative;
+  z-index: 100;
+}
+
+.profile-button {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #303746;
+  border-radius: 14px;
+  background: #171d29;
+  color: #f5f7ff;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.profile-button:hover {
+  background: #222c3c;
+  border-color: #5c83c7;
+}
+
+.profile-button svg {
+  width: 25px;
+  height: 25px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.profile-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 101;
+  border: 0;
+  background: rgba(0, 0, 0, .35);
+}
+
+.profile-panel {
+  position: absolute;
+  top: 58px;
+  left: 0;
+  z-index: 102;
+  width: min(320px, calc(100vw - 32px));
+  padding: 18px;
+  border: 1px solid #30394a;
+  border-radius: 18px;
+  background: #151c29;
+  color: #f5f7ff;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, .5);
+}
+
+.profile-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #303746;
+  font-size: 16px;
+}
+
+.profile-panel-header button {
+  border: 0;
+  background: transparent;
+  color: #aab4c6;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.profile-menu {
+  display: grid;
+  gap: 10px;
+  padding-top: 16px;
+}
+
+.profile-menu button,
+.profile-form button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #34435b;
+  border-radius: 10px;
+  background: #202c40;
+  color: #f5f7ff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.profile-menu button:hover,
+.profile-form button[type="submit"]:hover {
+  background: #2b3c58;
+}
+
+.profile-email {
+  margin: 0 0 6px;
+  color: #aebbd0;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.profile-menu .profile-logout {
+  border-color: #633b45;
+  background: #35232d;
+  color: #ff9ca8;
+}
+
+.profile-form {
+  display: grid;
+  gap: 10px;
+  padding-top: 14px;
+}
+
+.profile-form h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+}
+
+.profile-form label {
+  color: #b7c1d2;
+  font-size: 12px;
+}
+
+.profile-form input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #354157;
+  border-radius: 9px;
+  outline: none;
+  background: #0e1521;
+  color: #fff;
+}
+
+.profile-form input:focus {
+  border-color: #648ed4;
+}
+
+.profile-form button:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+.profile-feedback {
+  margin: 2px 0;
+  color: #ff9ca8;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.profile-back {
+  padding: 9px;
+  border: 0;
+  background: transparent;
+  color: #aebbd0;
+  cursor: pointer;
+}

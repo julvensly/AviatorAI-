@@ -1,7 +1,7 @@
 const DEFAULT_CONFIG = {
   seed: 12345,
   minDuration: 0,
-  maxDuration: 100
+  maxDuration: 50
 };
 
 const DURATION_GROUPS = [
@@ -49,7 +49,7 @@ function createRoundHash(roundId, seed) {
 }
 
 function selectDurationGroup(value) {
-  const selection = value % 100;
+  const selection = value % 50;
   let cumulativeWeight = 0;
 
   for (const group of DURATION_GROUPS) {

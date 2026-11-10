@@ -1,7 +1,7 @@
 const DEFAULT_CONFIG = {
   initialMultiplier: 1,
   growthRate: 0.07,
-  intervalSeconds: 0,5,
+  intervalSeconds: 0.5,
   targetMultiplier: 1000,
   maxIterations: 100000
 };

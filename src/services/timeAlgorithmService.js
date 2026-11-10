@@ -1,7 +1,7 @@
 const DEFAULT_CONFIG = {
   seed: 12345,
   minDuration: 0,
-  maxDuration: 50
+  maxDuration: 100
 };
 
 const DURATION_GROUPS = [

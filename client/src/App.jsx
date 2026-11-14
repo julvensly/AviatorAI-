@@ -7,7 +7,8 @@ import Enonce from './components/Enonce/Enonce'
 import Parye from './components/Parye/Parye'
 import Profile from './components/Profile/Profile'
 
-const POLL_INTERVAL = 500
+const MULTIPLIER_POLL_INTERVAL = 50
+const HISTORY_POLL_INTERVAL = 1000
 
 async function fetchJSON(url) {
   const response = await fetch(`${API_BASE_URL}${url}`)
@@ -25,43 +26,56 @@ function App() {
   const [history, setHistory] = useState([])
   const [connected, setConnected] = useState(false)
   const [error, setError] = useState('')
-
+  const [activePage, setActivePage] = useState('home')
   useEffect(() => {
     let active = true
-    let timer
+    let statusTimer
+    let historyTimer
 
-    async function refresh() {
+    async function refreshStatus() {
       try {
-        const [statusData, historyData] = await Promise.all([
-          fetchJSON('/api/engine/status'),
-          fetchJSON('/api/engine/history')
-        ])
+        const statusData = await fetchJSON("/api/engine/status")
 
         if (!active) return
 
         setEngine(statusData)
-        setHistory(historyData.history || [])
         setConnected(true)
-        setError('')
+        setError("")
       } catch (err) {
         if (!active) return
 
         setConnected(false)
-        setError(
-          err.message || 'Impossible de contacter COTE.AI.'
-        )
+        setError(err.message || "Impossible de contacter COTE.AI.")
       } finally {
         if (active) {
-          timer = setTimeout(refresh, POLL_INTERVAL)
+          statusTimer = setTimeout(refreshStatus, MULTIPLIER_POLL_INTERVAL)
         }
       }
     }
 
-    refresh()
+    async function refreshHistory() {
+      try {
+        const historyData = await fetchJSON("/api/engine/history")
+
+        if (!active) return
+
+        setHistory(historyData.history || [])
+      } catch (err) {
+        console.error("Erreur chargement historique:", err)
+      } finally {
+        if (active) {
+          historyTimer = setTimeout(refreshHistory, HISTORY_POLL_INTERVAL)
+        }
+      }
+    }
+
+    refreshStatus()
+    refreshHistory()
 
     return () => {
       active = false
-      clearTimeout(timer)
+      clearTimeout(statusTimer)
+      clearTimeout(historyTimer)
     }
   }, [])
 
@@ -92,7 +106,7 @@ function App() {
 
       <header className="topbar">
         <div className="brand">
-          <Profile />
+          <Profile onNavigate={setActivePage} />
 
           <span className="brand-text">
             <strong>COTE.AI</strong>

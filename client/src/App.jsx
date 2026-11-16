@@ -6,6 +6,8 @@ import History from './components/History/History'
 import Enonce from './components/Enonce/Enonce'
 import Parye from './components/Parye/Parye'
 import Profile from './components/Profile/Profile'
+import ApiKeys from './components/ApiKeys/ApiKeys'
+import ApiDocumentation from './components/ApiDocumentation/ApiDocumentation'
 
 const MULTIPLIER_POLL_INTERVAL = 50
 const HISTORY_POLL_INTERVAL = 1000
@@ -126,6 +128,12 @@ function App() {
         </div>
       </header>
 
+      {activePage === 'api-keys' ? (
+        <ApiKeys onNavigate={setActivePage} />
+      ) : activePage === 'api-docs' ? (
+        <ApiDocumentation onNavigate={setActivePage} />
+      ) : (
+        <>
       <section className="welcome">
         <div className="eyebrow">
           <span className="live-indicator" />
@@ -222,7 +230,7 @@ function App() {
             La connexion sera réessayée automatiquement.
           </small>
         </section>
-      )}
+        )}
 
       <section
 className="dashboard-panels" aria-label="Navigation du tableau de bord">
@@ -242,6 +250,8 @@ className="dashboard-panels" aria-label="Navigation du tableau de bord">
       </section>
 
 
+        </>
+      )}
       <footer className="footer">
         <span>COTEAI © 2026</span>
         <span>SIMULATION ENGINE</span>

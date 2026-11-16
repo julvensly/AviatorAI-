@@ -1,7 +1,7 @@
 import './History.css'
 
 function History({ history }) {
-  const recentHistory = [...history].reverse().slice(0, 8)
+  const recentHistory = [...history].reverse().slice(0, 15)
 
   return (
     <section className="history-section">

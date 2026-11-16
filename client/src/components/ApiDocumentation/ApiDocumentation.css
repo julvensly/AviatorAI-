@@ -1,0 +1,237 @@
+.api-docs-page {
+  width: 100%;
+  max-width: 900px;
+  min-height: 65vh;
+  margin: 30px auto;
+  padding: 24px;
+  color: #f5f7ff;
+  box-sizing: border-box;
+}
+
+.api-docs-header {
+  margin-bottom: 28px;
+}
+
+.api-docs-header button {
+  padding: 9px 15px;
+  border: 1px solid #303746;
+  border-radius: 10px;
+  background: #171d29;
+  color: #f5f7ff;
+  cursor: pointer;
+}
+
+.api-docs-header h1 {
+  margin: 24px 0 8px;
+  font-size: 28px;
+}
+
+.api-docs-header p {
+  color: #aebbd0;
+  font-size: 14px;
+}
+
+.api-docs-card {
+  margin-bottom: 18px;
+  padding: 22px;
+  border: 1px solid #303746;
+  border-radius: 16px;
+  background: #171d29;
+}
+
+.api-docs-card h2 {
+  margin: 0 0 14px;
+  font-size: 19px;
+}
+
+.api-docs-card p,
+.api-docs-card li {
+  color: #aebbd0;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.api-docs-card ul {
+  padding-left: 22px;
+  margin-bottom: 0;
+}
+
+.api-docs-accept {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 20px;
+  color: #f5f7ff;
+  font-size: 14px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.api-docs-accept input {
+  width: 18px;
+  height: 18px;
+  accent-color: #5c83c7;
+  flex-shrink: 0;
+}
+
+.api-docs-payment {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px;
+  border: 1px solid #34435b;
+  border-radius: 16px;
+  background: #171d29;
+}
+
+.api-docs-payment div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.api-docs-payment span {
+  color: #aebbd0;
+  font-size: 13px;
+}
+
+.api-docs-payment strong {
+  color: #6f9df5;
+  font-size: 25px;
+}
+
+.api-docs-payment button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #5c83c7;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.api-docs-payment button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .api-docs-page {
+    margin: 15px auto;
+    padding: 16px;
+  }
+
+  .api-docs-header h1 {
+    font-size: 24px;
+  }
+
+  .api-docs-payment {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .api-docs-payment button {
+    width: 100%;
+  }
+}
+
+/* Documentation themes */
+.api-docs-themes {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.api-docs-theme {
+  overflow: hidden;
+  border: 1px solid #303746;
+  border-radius: 15px;
+  background: #171d29;
+  transition: border-color 0.2s ease;
+}
+
+.api-docs-theme.active {
+  border-color: #5c83c7;
+}
+
+.api-docs-theme-button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 15px;
+  padding: 20px;
+  border: none;
+  background: transparent;
+  color: #f5f7ff;
+  text-align: left;
+  cursor: pointer;
+}
+
+.api-docs-theme-number {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 11px;
+  background: #222e42;
+  color: #79a5fa;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.api-docs-theme-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.api-docs-theme-info strong {
+  font-size: 16px;
+}
+
+.api-docs-theme-info small {
+  color: #aebbd0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.api-docs-theme-arrow {
+  color: #79a5fa;
+  font-size: 24px;
+}
+
+.api-docs-theme-content {
+  padding: 0 22px 22px;
+  border-top: 1px solid #303746;
+}
+
+.api-docs-theme-content h3 {
+  margin: 20px 0 10px;
+  color: #f5f7ff;
+  font-size: 16px;
+}
+
+.api-docs-theme-content p,
+.api-docs-theme-content li {
+  color: #aebbd0;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.api-docs-theme-content ul {
+  padding-left: 22px;
+}
+
+@media (max-width: 600px) {
+  .api-docs-theme-button {
+    gap: 11px;
+    padding: 16px;
+  }
+
+  .api-docs-theme-content {
+    padding: 0 16px 18px;
+  }
+}

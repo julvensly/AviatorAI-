@@ -5,13 +5,12 @@ const DEFAULT_CONFIG = {
 };
 
 const DURATION_GROUPS = [
-  { min: 0, max: 10, weight: 65 },
-  { min: 11, max: 20, weight: 19 },
-  { min: 21, max: 30, weight: 5 },
-  { min: 31, max: 40, weight: 4 },
-  { min: 41, max: 50, weight: 3 },
-  { min: 51, max: 60, weight: 2 },
-  { min: 61, max: 70, weight: 1 },
+  { min: 0, max: 20, weight: 75 },
+  { min: 21, max: 30, weight: 10 },
+  { min: 31, max: 40, weight: 5 },
+  { min: 41, max: 50, weight: 4 },
+  { min: 51, max: 60, weight: 3 },
+  { min: 61, max: 70, weight: 2 },
   { min: 71, max: 100, weight: 1 }
 ];
 
@@ -49,7 +48,7 @@ function createRoundHash(roundId, seed) {
 }
 
 function selectDurationGroup(value) {
-  const selection = value % 50;
+  const selection = value % 75;
   let cumulativeWeight = 0;
 
   for (const group of DURATION_GROUPS) {

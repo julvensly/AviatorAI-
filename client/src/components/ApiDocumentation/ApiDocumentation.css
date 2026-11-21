@@ -235,3 +235,75 @@
     padding: 0 16px 18px;
   }
 }
+
+/* API Key creation */
+.api-docs-creation {
+  margin-top: 25px;
+  padding: 22px;
+  border: 1px solid #303746;
+  border-radius: 15px;
+  background: #171d29;
+  color: #f5f7ff;
+}
+
+.api-docs-creation h2 {
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.api-docs-creation p {
+  color: #aebbd0;
+  line-height: 1.7;
+}
+
+.api-docs-acceptance {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 20px 0;
+  color: #dce4f3;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.api-docs-acceptance input {
+  margin-top: 4px;
+  accent-color: #5c83c7;
+}
+
+.api-docs-creation button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 9px;
+  background: #477bd1;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.api-docs-creation button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.api-docs-error {
+  color: #ff7777 !important;
+}
+
+.api-docs-key-result {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.api-docs-key-result code {
+  display: block;
+  overflow-wrap: anywhere;
+  padding: 14px;
+  border-radius: 8px;
+  background: #0d121c;
+  color: #8db5ff;
+  line-height: 1.6;
+}
+

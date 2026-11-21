@@ -39,10 +39,9 @@ const themes = [
               <li>Consultation des progressions et résultats.</li>
               <li>Accès aux informations autorisées en temps réel.</li>
             </ul>
-            <h3>Création et paiement</h3>
-            <p>La création d'une API Key est proposée au tarif de 1 000 HTG, l'API keys n'aura pas d'expiration, pour tout les modifications et amelioration du système votre API Keys sera  mise à jour automatiquement.</p>
-            <p>Le paiement s'effectue par NatCash, MonCash, Zell. La création de la clé intervient uniquement après vérification et confirmation du paiement par le système.</p>
-            <p> N.B: L'entreprise qui souhaite utiliser notre API keys devra céder mensuellement 15% du bénéfice total du jeux, par conséquent L'entreprise garde totalement le contrôle Sûr la mise et les paris de ces utilisateurs </p>
+            <h3>Création des API Keys</h3>
+            <p>La création des API Keys est gratuite et sans limite de nombre. Chaque clé API n’a pas de date d’expiration. Les améliorations et mises à jour du système seront automatiquement accessibles.</p>
+            <p><strong>Condition commerciale :</strong> L’entreprise qui utilise notre API Keys devra céder mensuellement 15% du bénéfice total du jeu. L’entreprise conserve le contrôle des mises et des paris de ses utilisateurs.</p>
             <h3>Sécurité</h3>
             <p>Chaque utilisateur doit protéger sa clé API et éviter de la partager publiquement. L'utilisation des API Keys reste soumise aux conditions de COTE.AI.</p>
           </>
@@ -128,9 +127,12 @@ const themes = [
     ]
   }
 ]
-export default function ApiDocumentation({ onNavigate }) {
+export default function ApiDocumentation({ onNavigate, companyName, onCreateApiKey }) {
   const [activeTheme, setActiveTheme] = useState(null)
   const [activeSection, setActiveSection] = useState(null)
+  const [accepted, setAccepted] = useState(false)
+  const [creating, setCreating] = useState(false)
+  const [creationError, setCreationError] = useState('')
 
   function toggleTheme(id) {
     setActiveTheme(current => current === id ? null : id)
@@ -141,10 +143,26 @@ export default function ApiDocumentation({ onNavigate }) {
     setActiveSection(current => current === id ? null : id)
   }
 
+  async function handleCreate() {
+    if (!accepted || creating) return
+
+    setCreating(true)
+    setCreationError("")
+
+    try {
+      await onCreateApiKey()
+    } catch (error) {
+      setCreationError(error.message || "Erreur lors de la création.")
+    } finally {
+      setCreating(false)
+    }
+  }
+
+
   return (
     <section className="api-docs-page">
       <header className="api-docs-header">
-        <button onClick={() => onNavigate('home')}>
+        <button onClick={() => onNavigate('api-keys')}>
           ← Retour
         </button>
 
@@ -212,6 +230,36 @@ export default function ApiDocumentation({ onNavigate }) {
           </article>
         ))}
       </div>
+      {companyName && (
+        <div className="api-docs-creation">
+          <h2>Création de votre API Key</h2>
+          <p>Entreprise : <strong>{companyName}</strong></p>
+
+          <>
+            <label className="api-docs-acceptance">
+              <input
+                type="checkbox"
+                checked={accepted}
+                onChange={event => setAccepted(event.target.checked)}
+              />
+              <span>J’accepte les conditions d’utilisation, notamment la cession mensuelle de 15% du bénéfice total du jeu.</span>
+            </label>
+
+            {creationError && (
+              <p className="api-docs-error">{creationError}</p>
+            )}
+
+            <button
+              type="button"
+              disabled={!accepted || creating}
+              onClick={handleCreate}
+            >
+              {creating ? "Création en cours..." : "Créer mon API Key"}
+            </button>
+          </>
+        </div>
+      )}
+
     </section>
   )
 }

@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import './Enonce.css'
 
 const PLAYER_KEY = 'coteai_test_player'
-const POLL_INTERVAL = 1000
+const POLL_INTERVAL = 5000
 
 function getPlayerId() {
   let id = localStorage.getItem(PLAYER_KEY)
@@ -162,8 +162,7 @@ function IntervalCard({
   )
 }
 
-function Enonce() {
-  const [intervalState, setIntervalState] = useState(null)
+function Enonce({ intervalState }) {
   const [history, setHistory] = useState([])
   const [balance, setBalance] = useState(0)
 
@@ -175,15 +174,12 @@ function Enonce() {
 
   const refresh = useCallback(async () => {
     try {
-      const [intervalData, historyData] = await Promise.all([
-        requestJSON('/api/intervals/status'),
-        requestJSON(
-          `/api/intervals/bets/history?playerId=${encodeURIComponent(PLAYER_ID)}`
-        )
-      ])
+      const historyData = await requestJSON(
+        `/api/intervals/bets/history?playerId=${encodeURIComponent(PLAYER_ID)}`
+      )
 
-      setIntervalState(intervalData)
       setHistory(historyData.history || [])
+
 
       if (typeof historyData.balance === 'number') {
         setBalance(historyData.balance)

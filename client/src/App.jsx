@@ -9,8 +9,6 @@ import Profile from './components/Profile/Profile'
 import ApiKeys from './components/ApiKeys/ApiKeys'
 import ApiDocumentation from './components/ApiDocumentation/ApiDocumentation'
 
-const MULTIPLIER_POLL_INTERVAL = 50
-const HISTORY_POLL_INTERVAL = 1000
 
 async function fetchJSON(url) {
   const response = await fetch(`${API_BASE_URL}${url}`)
@@ -26,60 +24,100 @@ async function fetchJSON(url) {
 function App() {
   const [engine, setEngine] = useState(null)
   const [history, setHistory] = useState([])
+  const [intervalState, setIntervalState] = useState(null)
   const [connected, setConnected] = useState(false)
   const [error, setError] = useState('')
   const [activePage, setActivePage] = useState('home')
+  const [pendingCompanyName, setPendingCompanyName] = useState('')
+  const [apiKeysRefresh, setApiKeysRefresh] = useState(0)
+  const [newlyCreatedKeyId, setNewlyCreatedKeyId] = useState(null)
   useEffect(() => {
-    let active = true
-    let statusTimer
-    let historyTimer
+    const stream = new EventSource(`${API_BASE_URL}/api/stream`)
 
-    async function refreshStatus() {
+    stream.addEventListener("INITIAL_STATE", (event) => {
       try {
-        const statusData = await fetchJSON("/api/engine/status")
-
-        if (!active) return
-
-        setEngine(statusData)
+        const data = JSON.parse(event.data)
+        setEngine(data.engine)
+        setHistory(data.history || [])
+        setIntervalState(data.intervals || null)
         setConnected(true)
         setError("")
       } catch (err) {
-        if (!active) return
-
-        setConnected(false)
-        setError(err.message || "Impossible de contacter COTE.AI.")
-      } finally {
-        if (active) {
-          statusTimer = setTimeout(refreshStatus, MULTIPLIER_POLL_INTERVAL)
-        }
+        console.error("Erreur état initial SSE:", err)
       }
-    }
+    })
 
-    async function refreshHistory() {
+    stream.addEventListener("MULTIPLIER_UPDATE", (event) => {
       try {
-        const historyData = await fetchJSON("/api/engine/history")
-
-        if (!active) return
-
-        setHistory(historyData.history || [])
+        const data = JSON.parse(event.data)
+        setEngine(data)
+        setConnected(true)
+        setError("")
       } catch (err) {
-        console.error("Erreur chargement historique:", err)
-      } finally {
-        if (active) {
-          historyTimer = setTimeout(refreshHistory, HISTORY_POLL_INTERVAL)
-        }
+        console.error("Erreur mise à jour SSE:", err)
       }
+    })
+
+    stream.addEventListener("INTERVAL_UPDATE", (event) => {
+      try {
+        const data = JSON.parse(event.data)
+        setIntervalState(data)
+      } catch (err) {
+        console.error("Erreur mise à jour intervalle SSE:", err)
+      }
+    })
+
+    stream.addEventListener("ROUND_EVENT", () => {
+      fetchJSON("/api/engine/history")
+        .then(data => setHistory(data.history || []))
+        .catch(err => console.error("Erreur historique:", err))
+    })
+
+    stream.onopen = () => {
+      setConnected(true)
+      setError("")
     }
 
-    refreshStatus()
-    refreshHistory()
+    stream.onerror = () => {
+      setConnected(false)
+      setError("Connexion au serveur interrompue. Reconnexion automatique...")
+    }
 
     return () => {
-      active = false
-      clearTimeout(statusTimer)
-      clearTimeout(historyTimer)
+      stream.close()
     }
   }, [])
+
+  async function handleCreateApiKey() {
+    const token = localStorage.getItem("coteai_token")
+
+    if (!token) {
+      throw new Error("Veuillez vous connecter.")
+    }
+
+    const response = await fetch(`${API_BASE_URL}/api/api-keys`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        companyName: pendingCompanyName
+      })
+    })
+
+    const data = await response.json()
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || "Erreur lors de la création.")
+    }
+
+    setApiKeysRefresh(previous => previous + 1)
+    setNewlyCreatedKeyId(data.apiKey.id)
+    setActivePage("api-keys")
+
+    return data.apiKey
+  }
 
   const currentRound = engine?.currentRound
   const running = Boolean(engine?.running && currentRound)
@@ -129,9 +167,21 @@ function App() {
       </header>
 
       {activePage === 'api-keys' ? (
-        <ApiKeys onNavigate={setActivePage} />
+        <ApiKeys
+          key={apiKeysRefresh}
+          newlyCreatedKeyId={newlyCreatedKeyId}
+          onNavigate={setActivePage}
+          onContinue={(name) => {
+            setPendingCompanyName(name)
+            setActivePage("api-docs")
+          }}
+        />
       ) : activePage === 'api-docs' ? (
-        <ApiDocumentation onNavigate={setActivePage} />
+        <ApiDocumentation
+          onNavigate={setActivePage}
+          companyName={pendingCompanyName}
+          onCreateApiKey={handleCreateApiKey}
+        />
       ) : (
         <>
       <section className="welcome">
@@ -241,7 +291,7 @@ className="dashboard-panels" aria-label="Navigation du tableau de bord">
           <Parye />
         </div>
         <div id="enonce-section" className="navigation-target">
-          <Enonce />
+          <Enonce intervalState={intervalState} />
           <div className="disclaimer">
             <span className="disclaimer-icon">i</span>
             <p>COTEAI est un outil expérimental de simulation. Les multiplicateurs affichés proviennent de nos algorithmes théoriques et ne prédisent pas les résultats d’un jeu réel.</p>

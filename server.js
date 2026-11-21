@@ -1,3 +1,6 @@
+import "dotenv/config";
+import publicApiRoutes from './src/routes/publicApiRoutes.js';
+import streamRoutes from './src/routes/streamRoutes.js';
 import express from 'express';
 import cors from 'cors';
 
@@ -8,6 +11,7 @@ import betRoutes from './src/routes/betRoutes.js';
 import roundEngineRoutes from './src/routes/roundEngineRoutes.js';
 import intervalRoutes from './src/routes/intervalRoutes.js';
 import walletRoutes from './src/routes/walletRoutes.js';
+import apiKeyRoutes from './src/routes/apiKeyRoutes.js';
 
 import { startEngine } from './src/services/roundEngineService.js';
 import { initializeIntervalSystem } from './src/services/intervalStartupService.js';
@@ -29,9 +33,12 @@ app.use('/api/auth', authRoutes);
 app.use('/api/analysis', analysisRoutes);
 app.use('/api/relationship', relationshipRoutes);
 app.use('/api/engine', roundEngineRoutes);
+app.use('/api/stream', streamRoutes);
 app.use('/api/bets', betRoutes);
 app.use('/api/intervals', intervalRoutes);
 app.use('/api/wallet', walletRoutes);
+app.use('/api/api-keys', apiKeyRoutes);
+app.use('/api/v1', publicApiRoutes);
 
 async function bootstrap() {
   try {

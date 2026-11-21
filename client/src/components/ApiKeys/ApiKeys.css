@@ -115,3 +115,142 @@
     padding: 28px 18px;
   }
 }
+
+.api-keys-empty form {
+  max-width: 430px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.api-keys-empty form label {
+  display: block;
+  margin-bottom: 9px;
+  color: #f5f7ff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.api-keys-empty form input {
+  width: 100%;
+  padding: 13px;
+  margin-bottom: 18px;
+  border: 1px solid #303746;
+  border-radius: 10px;
+  background: #101722;
+  color: #f5f7ff;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.api-keys-empty form input:focus {
+  outline: none;
+  border-color: #6f9df5;
+}
+
+.api-keys-empty form button {
+  margin: 0 8px 8px 0;
+}
+
+.api-keys-empty form .api-keys-cancel {
+  background: #303746;
+}
+
+.api-keys-list {
+  display: grid;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.api-key-card {
+  padding: 22px;
+  border: 1px solid #303746;
+  border-radius: 16px;
+  background: #171d29;
+}
+
+.api-key-card h3 {
+  margin: 0 0 12px;
+}
+
+.api-key-card p,
+.api-key-card small {
+  color: #aebbd0;
+}
+
+.api-key-card strong {
+  margin-left: 8px;
+  color: #6f9df5;
+}
+
+.api-key-revoke {
+  display: block;
+  margin-top: 15px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #a83e49;
+  color: white;
+  cursor: pointer;
+}
+
+.api-keys-error {
+  color: #ff7777 !important;
+}
+
+/* API KEY DISPLAY */
+.api-key-card {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.api-key-secret {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin-top: 18px;
+  box-sizing: border-box;
+}
+
+.api-key-secret code {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #303746;
+  border-radius: 8px;
+  background: #101722;
+  color: #8fb5ff;
+  font-size: 12px;
+  line-height: 1.7;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-all;
+  box-sizing: border-box;
+}
+
+.api-key-secret button {
+  max-width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #5c83c7;
+  color: white;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.api-key-secret button:hover {
+  background: #7098df;
+}
+
+.api-key-card > button:not(.api-key-secret button) {
+  max-width: 100%;
+  box-sizing: border-box;
+}
